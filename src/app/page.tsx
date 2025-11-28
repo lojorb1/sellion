@@ -1,14 +1,12 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "@/components/ui/progress"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { 
   BarChart3, 
   TrendingUp, 
@@ -28,15 +26,12 @@ import {
   CheckCircle,
   ArrowRight,
   Play,
-  X,
-  ChevronDown,
   ArrowLeft
 } from "lucide-react"
 
 export default function Sellion() {
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState("overview")
-  const [authMode, setAuthMode] = useState<"login" | "register">("register")
-  const [isAuthOpen, setIsAuthOpen] = useState(false)
   const [billingPeriod, setBillingPeriod] = useState<"monthly" | "annual">("monthly")
   const [selectedMarketplace, setSelectedMarketplace] = useState<string | null>(null)
 
@@ -85,18 +80,9 @@ export default function Sellion() {
     }
   }
 
-  const handleAuthSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Aqui você implementaria a lógica de autenticação
-    console.log("Formulário enviado")
-    setIsAuthOpen(false)
-  }
-
   const handleSalesCardClick = () => {
     if (selectedMarketplace) {
       setSelectedMarketplace(null)
-    } else {
-      // Não faz nada, aguarda seleção do marketplace
     }
   }
 
@@ -205,103 +191,19 @@ export default function Sellion() {
             </h1>
           </div>
           <div className="flex items-center gap-4">
-            <Dialog open={isAuthOpen} onOpenChange={setIsAuthOpen}>
-              <DialogTrigger asChild>
-                <Button variant="ghost" className="text-gray-300 hover:text-white" onClick={() => setAuthMode("login")}>
-                  Login
-                </Button>
-              </DialogTrigger>
-            </Dialog>
-            <Dialog open={isAuthOpen} onOpenChange={setIsAuthOpen}>
-              <DialogTrigger asChild>
-                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                  Teste Grátis 7 Dias
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-md bg-gray-900 border-gray-700">
-                <DialogHeader>
-                  <DialogTitle className="text-center text-xl">
-                    {authMode === "login" ? "Entrar na Sellion" : "Começar Teste Grátis"}
-                  </DialogTitle>
-                  <DialogDescription className="text-center text-gray-400">
-                    {authMode === "login" 
-                      ? "Acesse sua conta para continuar" 
-                      : "7 dias grátis • Sem compromisso • Cancele quando quiser"
-                    }
-                  </DialogDescription>
-                </DialogHeader>
-                
-                <form onSubmit={handleAuthSubmit} className="space-y-4">
-                  {authMode === "register" && (
-                    <div className="space-y-2">
-                      <Label htmlFor="fullName">Nome Completo</Label>
-                      <Input 
-                        id="fullName" 
-                        type="text" 
-                        placeholder="Seu nome completo"
-                        className="bg-gray-800 border-gray-600 focus:border-blue-500"
-                        required
-                      />
-                    </div>
-                  )}
-                  
-                  {authMode === "register" && (
-                    <div className="space-y-2">
-                      <Label htmlFor="cpf">CPF</Label>
-                      <Input 
-                        id="cpf" 
-                        type="text" 
-                        placeholder="000.000.000-00"
-                        className="bg-gray-800 border-gray-600 focus:border-blue-500"
-                        required
-                      />
-                    </div>
-                  )}
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input 
-                      id="email" 
-                      type="email" 
-                      placeholder="seu@email.com"
-                      className="bg-gray-800 border-gray-600 focus:border-blue-500"
-                      required
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="password">Senha</Label>
-                    <Input 
-                      id="password" 
-                      type="password" 
-                      placeholder="Sua senha"
-                      className="bg-gray-800 border-gray-600 focus:border-blue-500"
-                      required
-                    />
-                  </div>
-                  
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                  >
-                    {authMode === "login" ? "Entrar" : "Começar Teste Grátis"}
-                  </Button>
-                  
-                  <div className="text-center">
-                    <button
-                      type="button"
-                      onClick={() => setAuthMode(authMode === "login" ? "register" : "login")}
-                      className="text-sm text-blue-400 hover:text-blue-300"
-                    >
-                      {authMode === "login" 
-                        ? "Não tem conta? Criar conta grátis" 
-                        : "Já tem conta? Fazer login"
-                      }
-                    </button>
-                  </div>
-                </form>
-              </DialogContent>
-            </Dialog>
+            <Button 
+              variant="ghost" 
+              className="text-gray-300 hover:text-white"
+              onClick={() => router.push("/login")}
+            >
+              Login
+            </Button>
+            <Button 
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+              onClick={() => router.push("/register")}
+            >
+              Teste Grátis 7 Dias
+            </Button>
           </div>
         </div>
       </header>
@@ -321,101 +223,14 @@ export default function Sellion() {
             Nossa IA analisa performance, sugere melhorias e automatiza tarefas para você vender mais.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Dialog open={isAuthOpen} onOpenChange={setIsAuthOpen}>
-              <DialogTrigger asChild>
-                <Button 
-                  size="lg" 
-                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground shadow-xs hover:bg-primary/90 h-10 rounded-md has-[>svg]:px-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8"
-                  onClick={() => setAuthMode("register")}
-                >
-                  <Play className="w-5 h-5 mr-2" />
-                  Começar Teste Grátis
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-md bg-gray-900 border-gray-700">
-                <DialogHeader>
-                  <DialogTitle className="text-center text-xl">
-                    {authMode === "login" ? "Entrar na Sellion" : "Começar Teste Grátis"}
-                  </DialogTitle>
-                  <DialogDescription className="text-center text-gray-400">
-                    {authMode === "login" 
-                      ? "Acesse sua conta para continuar" 
-                      : "7 dias grátis • Sem compromisso • Cancele quando quiser"
-                    }
-                  </DialogDescription>
-                </DialogHeader>
-                
-                <form onSubmit={handleAuthSubmit} className="space-y-4">
-                  {authMode === "register" && (
-                    <div className="space-y-2">
-                      <Label htmlFor="fullName">Nome Completo</Label>
-                      <Input 
-                        id="fullName" 
-                        type="text" 
-                        placeholder="Seu nome completo"
-                        className="bg-gray-800 border-gray-600 focus:border-blue-500"
-                        required
-                      />
-                    </div>
-                  )}
-                  
-                  {authMode === "register" && (
-                    <div className="space-y-2">
-                      <Label htmlFor="cpf">CPF</Label>
-                      <Input 
-                        id="cpf" 
-                        type="text" 
-                        placeholder="000.000.000-00"
-                        className="bg-gray-800 border-gray-600 focus:border-blue-500"
-                        required
-                      />
-                    </div>
-                  )}
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input 
-                      id="email" 
-                      type="email" 
-                      placeholder="seu@email.com"
-                      className="bg-gray-800 border-gray-600 focus:border-blue-500"
-                      required
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="password">Senha</Label>
-                    <Input 
-                      id="password" 
-                      type="password" 
-                      placeholder="Sua senha"
-                      className="bg-gray-800 border-gray-600 focus:border-blue-500"
-                      required
-                    />
-                  </div>
-                  
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                  >
-                    {authMode === "login" ? "Entrar" : "Começar Teste Grátis"}
-                  </Button>
-                  
-                  <div className="text-center">
-                    <button
-                      type="button"
-                      onClick={() => setAuthMode(authMode === "login" ? "register" : "login")}
-                      className="text-sm text-blue-400 hover:text-blue-300"
-                    >
-                      {authMode === "login" 
-                        ? "Não tem conta? Criar conta grátis" 
-                        : "Já tem conta? Fazer login"
-                      }
-                    </button>
-                  </div>
-                </form>
-              </DialogContent>
-            </Dialog>
+            <Button 
+              size="lg" 
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground shadow-xs hover:bg-primary/90 h-10 rounded-md has-[>svg]:px-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8"
+              onClick={() => router.push("/register")}
+            >
+              <Play className="w-5 h-5 mr-2" />
+              Começar Teste Grátis
+            </Button>
             <Button size="lg" variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-800 text-lg px-8">
               <Eye className="w-5 h-5 mr-2" />
               Ver Demo
@@ -832,16 +647,12 @@ export default function Sellion() {
                     </div>
                   ))}
                 </div>
-                <Dialog open={isAuthOpen} onOpenChange={setIsAuthOpen}>
-                  <DialogTrigger asChild>
-                    <Button 
-                      className="w-full mt-6 bg-gray-700 hover:bg-gray-600"
-                      onClick={() => setAuthMode("register")}
-                    >
-                      Começar Teste Grátis
-                    </Button>
-                  </DialogTrigger>
-                </Dialog>
+                <Button 
+                  className="w-full mt-6 bg-gray-700 hover:bg-gray-600"
+                  onClick={() => router.push("/register")}
+                >
+                  Começar Teste Grátis
+                </Button>
               </CardContent>
             </Card>
 
@@ -889,16 +700,12 @@ export default function Sellion() {
                     </div>
                   ))}
                 </div>
-                <Dialog open={isAuthOpen} onOpenChange={setIsAuthOpen}>
-                  <DialogTrigger asChild>
-                    <Button 
-                      className="w-full mt-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                      onClick={() => setAuthMode("register")}
-                    >
-                      Começar Teste Grátis
-                    </Button>
-                  </DialogTrigger>
-                </Dialog>
+                <Button 
+                  className="w-full mt-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                  onClick={() => router.push("/register")}
+                >
+                  Começar Teste Grátis
+                </Button>
               </CardContent>
             </Card>
 
@@ -943,16 +750,12 @@ export default function Sellion() {
                     </div>
                   ))}
                 </div>
-                <Dialog open={isAuthOpen} onOpenChange={setIsAuthOpen}>
-                  <DialogTrigger asChild>
-                    <Button 
-                      className="w-full mt-6 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-                      onClick={() => setAuthMode("register")}
-                    >
-                      Começar Teste Grátis
-                    </Button>
-                  </DialogTrigger>
-                </Dialog>
+                <Button 
+                  className="w-full mt-6 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                  onClick={() => router.push("/register")}
+                >
+                  Começar Teste Grátis
+                </Button>
               </CardContent>
             </Card>
           </div>
@@ -977,18 +780,14 @@ export default function Sellion() {
             Junte-se a milhares de vendedores que já aumentaram suas vendas com o Sellion.
             Teste grátis por 7 dias, sem compromisso.
           </p>
-          <Dialog open={isAuthOpen} onOpenChange={setIsAuthOpen}>
-            <DialogTrigger asChild>
-              <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8"
-                onClick={() => setAuthMode("register")}
-              >
-                Começar Agora - É Grátis
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
-            </DialogTrigger>
-          </Dialog>
+          <Button 
+            size="lg" 
+            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8"
+            onClick={() => router.push("/register")}
+          >
+            Começar Agora - É Grátis
+            <ArrowRight className="w-5 h-5 ml-2" />
+          </Button>
         </div>
       </section>
 
