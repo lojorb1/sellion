@@ -183,12 +183,11 @@ export default function Sellion() {
       <header className="border-b border-gray-800 bg-gray-900/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <Zap className="w-5 h-5 text-white" />
-            </div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              Sellion
-            </h1>
+            <img 
+              src="https://k6hrqrxuu8obbfwn.public.blob.vercel-storage.com/temp/6bb0511b-b25c-45f6-bafc-f147a133e3be.png" 
+              alt="Vendrox Logo" 
+              className="h-8 w-auto"
+            />
           </div>
           <div className="flex items-center gap-4">
             <Button 
@@ -797,12 +796,11 @@ export default function Sellion() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                  <Zap className="w-5 h-5 text-white" />
-                </div>
-                <h4 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                  Sellion
-                </h4>
+                <img 
+                  src="https://k6hrqrxuu8obbfwn.public.blob.vercel-storage.com/temp/6bb0511b-b25c-45f6-bafc-f147a133e3be.png" 
+                  alt="Vendrox Logo" 
+                  className="h-8 w-auto"
+                />
               </div>
               <p className="text-gray-400 text-sm">
                 O assistente de vendas mais inteligente para marketplaces da América Latina.
